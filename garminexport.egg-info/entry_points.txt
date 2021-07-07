@@ -1,0 +1,5 @@
+[console_scripts]
+garmin-backup = garminexport.cli.backup:main
+garmin-get-activity = garminexport.cli.get_activity:main
+garmin-upload-activity = garminexport.cli.upload_activity:main
+
