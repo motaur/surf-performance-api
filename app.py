@@ -15,6 +15,9 @@ import json
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
+# deploy to firebase
+# https://medium.com/firebase-developers/hosting-flask-servers-on-firebase-from-scratch-c97cfb204579
+
 
 @app.after_request
 def allow_cross_domain(response: flask.Response):
@@ -30,9 +33,6 @@ def garmin_backup():
     password = request.json['password']
     activities: set = incremental_backup(username=login, password=password, backup_dir=os.path.join('.', 'activities/' + login),
                                          export_formats=['fit'], ignore_errors=True)
-
-    if(activities.__len__ != 0):
-        parse_downloaded_activities()
 
     return corsify_response(jsonify(activities))
 # incremental backup then parse
@@ -98,7 +98,7 @@ def parse_downloaded_activities():
                             activity['sport_type'] = field.value
 
             fitfile.close()
-            print(filename, 'parsed succesfully')
+            print(filename, 'parsed successfully')
             activities.append(activity)
         except:
             print('error parse : ' + filename)
